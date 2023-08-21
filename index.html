@@ -54,15 +54,27 @@
                 </div>
                 <div class="form-group mb-3">
                     <label for="message" class="form-label">Enter custom message(if required)</label>
-                    <textarea class="form-control" name="message" id="message" rows="3"></textarea>
+                    <textarea class="form-control" name="message" id="message" cols="3" rows="3"></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Send Message</button>
             </form>
         </div>
     </div>
 
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4">
+          <p class="col-md-4 mb-0 text-muted">© 2021 Joyal George</p>
+          
+          <ul class="nav col-md-4 justify-content-end">
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Privacy Policy</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Terms & Conditions</a></li>
+          </ul>
+        </footer>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/bsam65x3zzkmtjb5glz42590qb0q7gxv7weo1tupiv7v9zvz/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         var status = 0
         const phoneInputField = document.querySelector("#phoneNumber");
@@ -118,6 +130,14 @@
                 window.location.href = "https://api.whatsapp.com/send?phone="+number+"&text="+message;
             }
             return
+        });
+
+        tinymce.init({
+            menubar: false,
+            selector: '#message',
+            height: 250,
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media | forecolor backcolor emoticons',
         });
     </script>
 </body>
