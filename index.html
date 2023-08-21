@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Experience hassle-free messaging with DirectWhatsApp – the platform that lets you send WhatsApp messages without saving numbers. Connect instantly, without cluttering your contacts. Simplify your communication today!">
+    <meta name="keywords" content="WhatsApp messaging, Send WhatsApp message without saving numbers, DirectWhatsApp, No contact messaging, Effortless communication, Contact-free messaging, WhatsApp API, Message sender, Streamlined messaging, Instant communication, Contactless chat, WhatsApp without contacts, Quick messaging solution, Hassle-free WhatsApp, Message delivery service, Message without adding contact, WhatsApp outreach, Efficient messaging, Direct contact messaging, WhatsApp communication">
+    <title>DirectWhatsapp - Your WhatsApp to Effortless Messaging Without Saving Numbers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/css/intlTelInput.min.css" rel="stylesheet" />
+    <style>
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .req{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="direct-whatsapp.html">DirectWhatsapp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container py-4">
+        <div class="p-4 mb-4 bg-light rounded-3">
+            <div class="container-fluid">
+                <h4 class="display-6 fw-bold my-3">Send a WhatsApp message direct without adding to your contact list</h4>
+                <p class="col-md-12 fs-6">
+                    <b>Looking to send a WhatsApp message without the need to save the phone number?</b> That's precisely the purpose of this
+                    WhatsApp direct service. If you wish to send a message without the hassle of adding the recipient to your contact 
+                    list, this service offers the solution. It's designed for those who want to avoid cluttering their contacts with 
+                    every person they've ever messaged on WhatsApp.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container center-container">
+        <div class="col-md-6">
+            <form>
+                <div class="form-group mb-3">
+                    <label for="phoneNumber" class="form-label">Enter whatsapp number</label>
+                    <input type="tel" class="form-control" name="phone" id="phoneNumber" required>
+                    <p id="valid-msg" class="d-none" style="color:green">✓ Valid</p>
+                    <p id="error-msg" class="d-none" style="color: red;"></p>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="message" class="form-label">Enter custom message(if required)</label>
+                    <textarea class="form-control" name="message" id="message" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
+    <script>
+        var status = 0
+        const phoneInputField = document.querySelector("#phoneNumber");
+        const errorMsg = document.querySelector("#error-msg");
+        const validMsg = document.querySelector("#valid-msg");
+        const errorMap = ["Invalid number", "Invalid country code", "Too short", "Too long", "Invalid number"];
+
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            allowExtensions: true,
+            autoFormat: false,
+            autoPlaceholder: false,
+            separateDialCode: true,
+            nationalMode: false,
+            initialCountry: "in",
+            preventInvalidNumbers: true,
+            hiddenInput: "full",
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        });
+
+        const reset = () => {
+            status = 0
+            phoneInputField.classList.remove("error");
+            errorMsg.innerHTML = "";
+            errorMsg.classList.add("d-none");
+            validMsg.classList.add("d-none");
+        };
+
+        phoneInputField.addEventListener('blur', () => {
+            reset();
+            if (phoneInputField.value.trim()) {
+                if (phoneInput.isValidNumber()) {
+                    validMsg.classList.remove("d-none");
+                    status = 1
+                } else {
+                    phoneInputField.classList.add("error");
+                    const errorCode = phoneInput.getValidationError();
+                    errorMsg.innerHTML = errorMap[errorCode];
+                    errorMsg.classList.remove("d-none");
+                    status = 0
+                }
+            }
+        });
+
+        phoneInputField.addEventListener('change', reset);
+        phoneInputField.addEventListener('keyup', reset);
+
+        $("form").submit(function(e){
+            e.preventDefault();
+            if(status==1){
+                let data = $(this).serializeArray() 
+                let number = data[1]['value'].slice(1)
+                let message = encodeURIComponent( data[2]['value'])
+                window.location.href = "https://api.whatsapp.com/send?phone="+number+"&text="+message;
+            }
+            return
+        });
+    </script>
+</body>
+</html>
