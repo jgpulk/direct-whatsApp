@@ -93,7 +93,7 @@
         </div>
     </div>
 
-    <div class="container fixed-bottom">
+    <div class="container fixed-bottom" id="footer">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 my-2">
             <p class="col-md-4 mb-0 text-muted">© <span id="year"></span> Joyal George</p>
           
@@ -212,6 +212,9 @@
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.3/js/intlTelInput.min.js"></script>
     <script>
+        footerResponsive();
+        window.addEventListener('resize', footerResponsive);
+
         $('#year').text(new Date().getFullYear())
         var status = 0
         const phoneInputField = document.querySelector("#phoneNumber");
@@ -268,6 +271,17 @@
             }
             return
         });
+
+        function footerResponsive() {
+            const footer = document.getElementById('footer')
+            if (window.innerWidth < 576) {
+                footer.classList.add('sticky-bottom')
+                footer.classList.remove('fixed-bottom')
+            } else {
+                footer.classList.remove('sticky-bottom')
+                footer.classList.add('fixed-bottom')
+            }
+        }
     </script>
 </body>
 </html>
